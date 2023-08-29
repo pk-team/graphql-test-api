@@ -8,8 +8,11 @@ public class Query {
     public string Hello => "Hello World!";
 
 
-    public List<Person> GetPeople([Service] GetPeopleQuery query) {
-        return query.Handle();
+    public List<Person> GetPeople(
+        [Service] GetPeopleQuery query,
+        int first = 3
+    ) {
+        return query.Handle(first);
     }
 
     public Person GetPerson(

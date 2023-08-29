@@ -11,7 +11,10 @@ public class GetPeopleQuery {
         _context = context;
     }
 
-    public List<Person> Handle() {
+    public List<Person> Handle(int? first = null) {
+        if (first is not null) {
+            return _context.People.Take(first.Value).ToList();
+        }
         return _context.People;
     }
 }

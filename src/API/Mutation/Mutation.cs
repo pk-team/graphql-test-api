@@ -6,7 +6,12 @@ namespace API.Mutation;
 
 public class Mutation {
 
-
+    /// <summary>
+    /// Create a person 
+    /// </summary>
+    /// <param name="handler"></param>
+    /// <param name="input"></param>
+    /// <returns></returns>
     public Application.MutationResult<CreatePersonDTO> CreatePerson(
         [Service] Application.Command.CreatePersonHandler handler,
         CreatePersonInput input

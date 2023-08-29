@@ -1,6 +1,6 @@
 
-using Infrastructure.Context;
 using Domain.Model;
+using Infrastructure.Context;
 
 namespace Application.Command;
 public class UpdatePersonHandler {
@@ -9,29 +9,45 @@ public class UpdatePersonHandler {
         _context = context;
     }
 
+        private List<string> ValidateUpdatePerson(UpdatePersonInput input) {
+        var errors = new List<string>();
+
+        var personExists = _context.People.Any(p => p.Id == input.Id);
+        if (!personExists) {
+            errors.Add("Person not found");
+            return errors;
+        }
+
+        var nameTaken = _context.People.FirstOrDefault(p => p.Name == input.Name && p.Id != input.Id);
+        if (nameTaken != null) {
+            errors.Add("Name already taken");
+            return errors;
+        }
+
+        if (string.IsNullOrWhiteSpace(input.Name)) {
+            errors.Add("Name cannot be blank");
+        }
+        
+        if (input.Age < 0 || input.Age > 120) {
+            errors.Add("Age must be between 0 and 120");
+        }
+
+        return errors;
+    }
+
+
     public Application.MutationResult<UpdatePersonDTO> Handle(UpdatePersonInput input) {
 
-        // get existing person
-        var person = _context.People.FirstOrDefault(p => p.Id == input.Id);
-        // error if not found
-        if (person == null) {
+        var errors = ValidateUpdatePerson(input);
+        if (errors.Any()) {
             return new Application.MutationResult<UpdatePersonDTO> {
-                Errors = new List<string> { "Person not found" }
+                Errors = errors
             };
         }
 
-        // name in use by another ID
-        var existing = _context.People.FirstOrDefault(p => p.Name == input.Name && p.Id != input.Id);
-        // error
-        if (existing != null) {
-            return new Application.MutationResult<UpdatePersonDTO> {
-                Errors = new List<string> { "Person already exists" }
-            };
-        }
+        var person = _context.People.First(p => p.Id == input.Id);
 
-        // update person
-        person.Name = input.Name;
-        person.Age = input.Age;
+        person.Update(input.Name, input.Age);
 
         _context.People.Add(person);
         _context.SaveChanges();
