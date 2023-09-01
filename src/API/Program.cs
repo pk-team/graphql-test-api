@@ -19,8 +19,8 @@ builder.Services.AddCors(options => {
 builder.Services.AddSingleton<AppDbContext>();
 builder.Services.AddScoped<CreatePersonHandler>();
 builder.Services.AddScoped<UpdateUserHandler>();
-builder.Services.AddScoped<GetPersonQuery>();
-builder.Services.AddScoped<GetPeopleQuery>();
+builder.Services.AddScoped<GetUserQuery>();
+builder.Services.AddScoped<GetUsersQuery>();
 
 builder.Services.AddGraphQLServer()
     .AddQueryType<Query>()

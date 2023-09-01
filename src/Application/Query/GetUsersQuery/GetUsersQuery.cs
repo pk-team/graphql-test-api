@@ -3,18 +3,18 @@ using Domain.Model;
 
 namespace Application.Query;
 
-public class GetPeopleQuery {
+public class GetUsersQuery {
 
     // AppDbContext
     private readonly AppDbContext _context;
-    public GetPeopleQuery(AppDbContext context) {
+    public GetUsersQuery(AppDbContext context) {
         _context = context;
     }
 
     public List<User> Handle(int? first = null) {
         if (first is not null) {
-            return _context.People.Take(first.Value).ToList();
+            return _context.Users.Take(first.Value).ToList();
         }
-        return _context.People;
+        return _context.Users;
     }
 }

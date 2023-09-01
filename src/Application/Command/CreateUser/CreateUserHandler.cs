@@ -11,12 +11,12 @@ public class CreatePersonHandler {
     private List<string> ValidateCreatePerson(CreateUserInput input) {
         var errors = new List<string>();
 
-        if (_context.People.Any(p => p.Name == input.Name)) {
+        if (_context.Users.Any(p => p.Name == input.Name)) {
             errors.Add("Person name already exists");
             return errors;
         }
 
-        if (_context.People.Any(p => p.Email == input.Email)) {
+        if (_context.Users.Any(p => p.Email == input.Email)) {
             errors.Add("Email already exists");
             return errors;
         }
@@ -49,7 +49,7 @@ public class CreatePersonHandler {
 
         var person = new User(input.Name, input.Email, input.Age);
 
-        _context.People.Add(person);
+        _context.Users.Add(person);
         _context.SaveChanges();
 
         return new Application.MutationResult<CreateUserDTO> {

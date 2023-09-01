@@ -12,13 +12,13 @@ public class UpdateUserHandler {
         private List<string> ValidateUpdatePerson(UpdateUserInput input) {
         var errors = new List<string>();
 
-        var personExists = _context.People.Any(p => p.Id == input.Id);
+        var personExists = _context.Users.Any(p => p.Id == input.Id);
         if (!personExists) {
             errors.Add("Person not found");
             return errors;
         }
 
-        var nameTaken = _context.People.FirstOrDefault(p => p.Name == input.Name && p.Id != input.Id);
+        var nameTaken = _context.Users.FirstOrDefault(p => p.Name == input.Name && p.Id != input.Id);
         if (nameTaken != null) {
             errors.Add("Name already taken");
             return errors;
@@ -51,11 +51,11 @@ public class UpdateUserHandler {
             };
         }
 
-        var person = _context.People.First(p => p.Id == input.Id);
+        var person = _context.Users.First(p => p.Id == input.Id);
 
         person.Update(input.Name, input.Email, input.Age);
 
-        _context.People.Add(person);
+        _context.Users.Add(person);
         _context.SaveChanges();
         return new Application.MutationResult<UpdateUserDTO> {
             Data = UpdateUserDTO.FromPerson(person)

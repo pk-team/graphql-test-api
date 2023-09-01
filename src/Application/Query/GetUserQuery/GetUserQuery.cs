@@ -3,15 +3,15 @@ using Infrastructure.Context;
 
 namespace Application.Query;
 
-public class GetPersonQuery {
+public class GetUserQuery {
 
     // AppDbContext
     private readonly AppDbContext _context;
-    public GetPersonQuery(AppDbContext context) {
+    public GetUserQuery(AppDbContext context) {
         _context = context;
     }
 
     public User Handle(Guid Id) {
-        return _context.People.First(p => p.Id == Id);
+        return _context.Users.First(p => p.Id == Id);
     }
 }

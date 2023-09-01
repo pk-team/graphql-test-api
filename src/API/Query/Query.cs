@@ -8,15 +8,15 @@ public class Query {
     public string Hello => "Hello World!";
 
 
-    public List<User> GetPeople(
-        [Service] GetPeopleQuery query,
+    public List<User> GetUsers(
+        [Service] GetUsersQuery query,
         int first = 3
     ) {
         return query.Handle(first);
     }
 
     public User GetPerson(
-        [Service] GetPersonQuery query,
+        [Service] GetUserQuery query,
         Guid Id
     ) {
         return query.Handle(Id);
