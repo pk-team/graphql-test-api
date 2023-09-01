@@ -3,13 +3,13 @@ using Domain.Model;
 using Infrastructure.Context;
 
 namespace Application.Command;
-public class UpdatePersonHandler {
+public class UpdateUserHandler {
     private readonly AppDbContext _context;
-    public UpdatePersonHandler(AppDbContext context) {
+    public UpdateUserHandler(AppDbContext context) {
         _context = context;
     }
 
-        private List<string> ValidateUpdatePerson(UpdatePersonInput input) {
+        private List<string> ValidateUpdatePerson(UpdateUserInput input) {
         var errors = new List<string>();
 
         var personExists = _context.People.Any(p => p.Id == input.Id);
@@ -24,6 +24,12 @@ public class UpdatePersonHandler {
             return errors;
         }
 
+        if (string.IsNullOrWhiteSpace(input.Email)) {
+            errors.Add("Email cannot be blank");
+        } else if (!input.Email.Contains("@")) {
+            errors.Add("Email must contain @");
+        }
+
         if (string.IsNullOrWhiteSpace(input.Name)) {
             errors.Add("Name cannot be blank");
         }
@@ -36,23 +42,23 @@ public class UpdatePersonHandler {
     }
 
 
-    public Application.MutationResult<UpdatePersonDTO> Handle(UpdatePersonInput input) {
+    public Application.MutationResult<UpdateUserDTO> Handle(UpdateUserInput input) {
 
         var errors = ValidateUpdatePerson(input);
         if (errors.Any()) {
-            return new Application.MutationResult<UpdatePersonDTO> {
+            return new Application.MutationResult<UpdateUserDTO> {
                 Errors = errors
             };
         }
 
         var person = _context.People.First(p => p.Id == input.Id);
 
-        person.Update(input.Name, input.Age);
+        person.Update(input.Name, input.Email, input.Age);
 
         _context.People.Add(person);
         _context.SaveChanges();
-        return new Application.MutationResult<UpdatePersonDTO> {
-            Data = UpdatePersonDTO.FromPerson(person)
+        return new Application.MutationResult<UpdateUserDTO> {
+            Data = UpdateUserDTO.FromPerson(person)
         };
     }
 }

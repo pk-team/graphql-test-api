@@ -18,7 +18,7 @@ builder.Services.AddCors(options => {
 
 builder.Services.AddSingleton<AppDbContext>();
 builder.Services.AddScoped<CreatePersonHandler>();
-builder.Services.AddScoped<UpdatePersonHandler>();
+builder.Services.AddScoped<UpdateUserHandler>();
 builder.Services.AddScoped<GetPersonQuery>();
 builder.Services.AddScoped<GetPeopleQuery>();
 

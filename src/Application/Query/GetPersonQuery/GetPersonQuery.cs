@@ -11,7 +11,7 @@ public class GetPersonQuery {
         _context = context;
     }
 
-    public Person Handle(Guid Id) {
+    public User Handle(Guid Id) {
         return _context.People.First(p => p.Id == Id);
     }
 }

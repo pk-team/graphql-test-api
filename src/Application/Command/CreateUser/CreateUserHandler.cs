@@ -8,16 +8,27 @@ public class CreatePersonHandler {
         _context = context;
     }
 
-    private List<string> ValidateCreatePerson(CreatePersonInput input) {
+    private List<string> ValidateCreatePerson(CreateUserInput input) {
         var errors = new List<string>();
 
         if (_context.People.Any(p => p.Name == input.Name)) {
-            errors.Add("Person already exists");
+            errors.Add("Person name already exists");
+            return errors;
+        }
+
+        if (_context.People.Any(p => p.Email == input.Email)) {
+            errors.Add("Email already exists");
             return errors;
         }
 
         if (string.IsNullOrWhiteSpace(input.Name)) {
             errors.Add("Name cannot be blank");
+        }
+
+        if (string.IsNullOrWhiteSpace(input.Email)) {
+            errors.Add("Email cannot be blank");
+        } else if (!input.Email.Contains("@")) {
+            errors.Add("Email must contain @");
         }
         
         if (input.Age < 0 || input.Age > 120) {
@@ -27,22 +38,22 @@ public class CreatePersonHandler {
         return errors;
     }
 
-    public Application.MutationResult<CreatePersonDTO> Handle(CreatePersonInput input) {
+    public Application.MutationResult<CreateUserDTO> Handle(CreateUserInput input) {
         var errors = ValidateCreatePerson(input);
 
         if (errors.Any()) {
-            return new Application.MutationResult<CreatePersonDTO> {
+            return new Application.MutationResult<CreateUserDTO> {
                 Errors = errors
             };
         }
 
-        var person = new Person(input.Name, input.Age);
+        var person = new User(input.Name, input.Email, input.Age);
 
         _context.People.Add(person);
         _context.SaveChanges();
 
-        return new Application.MutationResult<CreatePersonDTO> {
-            Data = CreatePersonDTO.FromPerson(person)
+        return new Application.MutationResult<CreateUserDTO> {
+            Data = CreateUserDTO.FromPerson(person)
         };
     }
 }

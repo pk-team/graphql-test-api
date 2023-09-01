@@ -1,5 +1,5 @@
 namespace Application.Command;
 
-public class UpdatePersonInput : CreatePersonInput  {
+public class UpdateUserInput : CreateUserInput  {
     public Guid Id { get; set;  }
 }
