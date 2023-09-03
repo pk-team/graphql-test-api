@@ -15,10 +15,17 @@ public class Query {
         return query.Handle(first);
     }
 
-    public User GetPerson(
+    public User GetUser(
         [Service] GetUserQuery query,
         Guid Id
     ) {
         return query.Handle(Id);
+    }
+
+    public List<Client> GetClients(
+        [Service] AppDbContext context,
+        int first = 3
+    ) {
+        return context.Clients.Take(first).ToList();
     }
 }

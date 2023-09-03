@@ -8,8 +8,8 @@ public class CreatePersonHandler {
         _context = context;
     }
 
-    private List<string> ValidateCreatePerson(CreateUserInput input) {
-        var errors = new List<string>();
+    private List<MutationError> ValidateCreatePerson(CreateUserInput input) {
+        var errors = new List<MutationError>();
 
         if (_context.Users.Any(p => p.Name == input.Name)) {
             errors.Add("Person name already exists");

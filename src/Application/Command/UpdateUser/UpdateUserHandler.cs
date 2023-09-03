@@ -9,8 +9,8 @@ public class UpdateUserHandler {
         _context = context;
     }
 
-        private List<string> ValidateUpdatePerson(UpdateUserInput input) {
-        var errors = new List<string>();
+        private List<MutationError> ValidateUpdatePerson(UpdateUserInput input) {
+        var errors = new List<MutationError>();
 
         var personExists = _context.Users.Any(p => p.Id == input.Id);
         if (!personExists) {
