@@ -2,13 +2,35 @@ using Domain.Model;
 using Infrastructure.Context;
 
 namespace Application.Command;
-public class CreatePersonHandler {
+public class CreateUserHandler : ICommandHandler<CreateUserInput, CreateUserDTO> {
     private readonly AppDbContext _context;
-    public CreatePersonHandler(AppDbContext context) {
+    public CreateUserHandler(AppDbContext context) {
         _context = context;
     }
 
-    private List<MutationError> ValidateCreatePerson(CreateUserInput input) {
+
+    public async Task<Application.MutationResult<CreateUserDTO>> HandleAsync(CreateUserInput input) {
+        await Task.CompletedTask;
+
+        var errors = ValidateCreatePerson(input);
+
+        if (errors.Any()) {
+            return new Application.MutationResult<CreateUserDTO> {
+                Errors = errors
+            };
+        }
+
+        var person = new User(input.Name, input.Email, input.Age);
+
+        _context.Users.Add(person);
+        _context.SaveChanges();
+
+        return new Application.MutationResult<CreateUserDTO> {
+            Data = CreateUserDTO.FromPerson(person)
+        };
+    }
+
+        private List<MutationError> ValidateCreatePerson(CreateUserInput input) {
         var errors = new List<MutationError>();
 
         if (_context.Users.Any(p => p.Name == input.Name)) {
@@ -38,24 +60,6 @@ public class CreatePersonHandler {
         return errors;
     }
 
-    public Application.MutationResult<CreateUserDTO> Handle(CreateUserInput input) {
-        var errors = ValidateCreatePerson(input);
-
-        if (errors.Any()) {
-            return new Application.MutationResult<CreateUserDTO> {
-                Errors = errors
-            };
-        }
-
-        var person = new User(input.Name, input.Email, input.Age);
-
-        _context.Users.Add(person);
-        _context.SaveChanges();
-
-        return new Application.MutationResult<CreateUserDTO> {
-            Data = CreateUserDTO.FromPerson(person)
-        };
-    }
 }
 
 

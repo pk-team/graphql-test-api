@@ -8,11 +8,11 @@ public class UpdateUserDTO  {
     public int Age { get; set; }
 
     // create from Person
-    public static UpdateUserDTO FromPerson(User person) {
+    public static UpdateUserDTO FromUser(User user) {
         return new UpdateUserDTO {
-            Id = person.Id,
-            Name = person.Name,
-            Age = person.Age
+            Id = user.Id,
+            Name = user.Name,
+            Age = user.Age
         };
     }
 }

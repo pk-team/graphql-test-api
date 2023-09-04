@@ -1,3 +1,4 @@
+
 using API.Mutation;
 using API.Query;
 using Application.Command;
@@ -14,13 +15,17 @@ builder.Services.AddCors(options => {
         .SetIsOriginAllowed((host) => true)
         .AllowCredentials()
     );
-}); 
+});
 
 builder.Services.AddSingleton<AppDbContext>();
-builder.Services.AddScoped<CreatePersonHandler>();
-builder.Services.AddScoped<UpdateUserHandler>();
 builder.Services.AddScoped<GetUserQuery>();
 builder.Services.AddScoped<GetUsersQuery>();
+builder.Services.AddScoped<CreateUserHandler>();
+builder.Services.AddScoped<UpdateUserHandler>();
+builder.Services.AddScoped<DeleteUserHandler>();
+
+
+
 
 builder.Services.AddGraphQLServer()
     .AddQueryType<Query>()
