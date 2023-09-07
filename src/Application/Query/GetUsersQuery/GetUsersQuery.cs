@@ -3,7 +3,7 @@ using Domain.Model;
 
 namespace Application.Query;
 
-public class GetUsersQuery {
+public class GetUsersQuery : IQueryHandler {
 
     // AppDbContext
     private readonly AppDbContext _context;

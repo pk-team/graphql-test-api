@@ -2,7 +2,7 @@
 using Infrastructure.Context;
 
 namespace Application.Command;
-public class DeleteUserHandler : ICommandHandler<DeleteUserInput, DeleteUserDTO> {
+public class DeleteUserHandler : ICommandHandler {
     private readonly AppDbContext _context;
     public DeleteUserHandler(AppDbContext context) {
         _context = context;

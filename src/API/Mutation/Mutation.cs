@@ -1,6 +1,4 @@
 using Application.Command;
-using Domain.Model;
-using Infrastructure.Context;
 
 namespace API.Mutation;
 
@@ -12,11 +10,11 @@ public class Mutation {
     /// <param name="handler"></param>
     /// <param name="input"></param>
     /// <returns></returns>
-    public async Task<Application.MutationResult<CreateUserDTO>> CreateUser(
+    public static async Task<Application.MutationResult<CreateUserDTO>> CreateUserAsync(
         [Service] Application.Command.CreateUserHandler handler,
         CreateUserInput input
     ) {
-        var result =await  handler.HandleAsync(input);
+        Application.MutationResult<CreateUserDTO> result = await handler.HandleAsync(input);
         return result;
     }
 
@@ -26,11 +24,11 @@ public class Mutation {
     /// <param name="handler"></param>
     /// <param name="input"></param>
     /// <returns></returns>
-    public async Task<Application.MutationResult<UpdateUserDTO>> UpdateUserAsync(
-        [Service] Application.Command.UpdateUserHandler handler,
+    public static async Task<Application.MutationResult<UpdateUserDTO>> UpdateUserAsync(
+        [Service] UpdateUserHandler handler,
         UpdateUserInput input
     ) {
-        var result = await handler.HandleAsync(input);
+        Application.MutationResult<UpdateUserDTO> result = await handler.HandleAsync(input);
         return result;
     }
 
@@ -40,11 +38,11 @@ public class Mutation {
     /// <param name="handler"></param>
     /// <param name="input"></param>
     /// <returns></returns>
-    public async Task<Application.MutationResult<DeleteUserDTO>> DeleteUserAsync(
-        [Service] Application.Command.DeleteUserHandler handler,
+    public static async Task<Application.MutationResult<DeleteUserDTO>> DeleteUserAsync(
+        [Service] DeleteUserHandler handler,
         DeleteUserInput input
     ) {
-        var result = await handler.HandleAsync(input);
+        Application.MutationResult<DeleteUserDTO> result = await handler.HandleAsync(input);
         return result;
     }
 }

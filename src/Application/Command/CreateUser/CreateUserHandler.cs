@@ -2,7 +2,7 @@ using Domain.Model;
 using Infrastructure.Context;
 
 namespace Application.Command;
-public class CreateUserHandler : ICommandHandler<CreateUserInput, CreateUserDTO> {
+public class CreateUserHandler : ICommandHandler {
     private readonly AppDbContext _context;
     public CreateUserHandler(AppDbContext context) {
         _context = context;
@@ -49,7 +49,7 @@ public class CreateUserHandler : ICommandHandler<CreateUserInput, CreateUserDTO>
 
         if (string.IsNullOrWhiteSpace(input.Email)) {
             errors.Add("Email cannot be blank");
-        } else if (!input.Email.Contains("@")) {
+        } else if (!input.Email.Contains('@')) {
             errors.Add("Email must contain @");
         }
         

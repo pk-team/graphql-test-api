@@ -3,7 +3,7 @@ using Infrastructure.Context;
 
 namespace Application.Query;
 
-public class GetUserQuery {
+public class GetUserQuery : IQueryHandler {
 
     // AppDbContext
     private readonly AppDbContext _context;

@@ -1,7 +1,7 @@
 using Infrastructure.Context;
 
 namespace Application.Command;
-public class UpdateUserHandler : ICommandHandler<UpdateUserInput, UpdateUserDTO> {
+public class UpdateUserHandler : ICommandHandler {
     private readonly AppDbContext _context;
     public UpdateUserHandler(AppDbContext context) {
         _context = context;
@@ -46,7 +46,7 @@ public class UpdateUserHandler : ICommandHandler<UpdateUserInput, UpdateUserDTO>
 
         if (string.IsNullOrWhiteSpace(input.Email)) {
             errors.Add("Email cannot be blank");
-        } else if (!input.Email.Contains("@")) {
+        } else if (!input.Email.Contains('@')) {
             errors.Add("Email must contain @");
         }
 

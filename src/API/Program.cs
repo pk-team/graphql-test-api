@@ -1,11 +1,9 @@
-
+using API.Configuration;
 using API.Mutation;
 using API.Query;
-using Application.Command;
-using Application.Query;
 using Infrastructure.Context;
 
-var builder = WebApplication.CreateBuilder(args);
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 // add cors 
 builder.Services.AddCors(options => {
@@ -18,20 +16,14 @@ builder.Services.AddCors(options => {
 });
 
 builder.Services.AddSingleton<AppDbContext>();
-builder.Services.AddScoped<GetUserQuery>();
-builder.Services.AddScoped<GetUsersQuery>();
-builder.Services.AddScoped<CreateUserHandler>();
-builder.Services.AddScoped<UpdateUserHandler>();
-builder.Services.AddScoped<DeleteUserHandler>();
-
-
-
+builder.Services.AddQueryHandlers();
+builder.Services.AddCommandHandlers();
 
 builder.Services.AddGraphQLServer()
     .AddQueryType<Query>()
     .AddMutationType<Mutation>();
 
-var app = builder.Build();
+WebApplication app = builder.Build();
 
 app.UseCors("CorsPolicy");
 app.MapGraphQL();
