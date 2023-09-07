@@ -5,24 +5,24 @@ using Infrastructure.Context;
 namespace API.Query;
 
 public class Query {
-    public static string Hello => "Hello World!";
+    public  string Hello => "Hello World!";
 
 
-    public static List<User> GetUsers(
+    public  List<User> GetUsers(
         [Service] GetUsersQuery query,
         int first = 3
     ) {
         return query.Handle(first);
     }
 
-    public static User GetUser(
+    public  User GetUser(
         [Service] GetUserQuery query,
         Guid Id
     ) {
         return query.Handle(Id);
     }
 
-    public static List<Client> GetClients(
+    public  List<Client> GetClients(
         [Service] AppDbContext context,
         int first = 3
     ) {

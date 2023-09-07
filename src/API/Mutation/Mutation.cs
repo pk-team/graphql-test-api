@@ -10,7 +10,7 @@ public class Mutation {
     /// <param name="handler"></param>
     /// <param name="input"></param>
     /// <returns></returns>
-    public static async Task<Application.MutationResult<CreateUserDTO>> CreateUserAsync(
+    public  async Task<Application.MutationResult<CreateUserDTO>> CreateUserAsync(
         [Service] Application.Command.CreateUserHandler handler,
         CreateUserInput input
     ) {
@@ -24,7 +24,7 @@ public class Mutation {
     /// <param name="handler"></param>
     /// <param name="input"></param>
     /// <returns></returns>
-    public static async Task<Application.MutationResult<UpdateUserDTO>> UpdateUserAsync(
+    public  async Task<Application.MutationResult<UpdateUserDTO>> UpdateUserAsync(
         [Service] UpdateUserHandler handler,
         UpdateUserInput input
     ) {
@@ -38,7 +38,7 @@ public class Mutation {
     /// <param name="handler"></param>
     /// <param name="input"></param>
     /// <returns></returns>
-    public static async Task<Application.MutationResult<DeleteUserDTO>> DeleteUserAsync(
+    public  async Task<Application.MutationResult<DeleteUserDTO>> DeleteUserAsync(
         [Service] DeleteUserHandler handler,
         DeleteUserInput input
     ) {
