@@ -1,3 +1,5 @@
+#pragma warning disable CA1822
+
 using Application.Query;
 using Domain.Model;
 using Infrastructure.Context;

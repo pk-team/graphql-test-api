@@ -1,3 +1,5 @@
+#pragma warning disable CA1822
+
 using Application.Command;
 
 namespace API.Mutation;
@@ -11,7 +13,7 @@ public class Mutation {
     /// <param name="input"></param>
     /// <returns></returns>
     public  async Task<Application.MutationResult<CreateUserDTO>> CreateUserAsync(
-        [Service] Application.Command.CreateUserHandler handler,
+        [Service] CreateUserHandler handler,
         CreateUserInput input
     ) {
         Application.MutationResult<CreateUserDTO> result = await handler.HandleAsync(input);
