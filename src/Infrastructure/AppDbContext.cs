@@ -8,6 +8,7 @@ public class AppDbContext {
 
     public void SaveChanges() {
         Console.WriteLine("Saving changes...");
+        Console.WriteLine(Clients.Count);
     }
 
     public AppDbContext() {
