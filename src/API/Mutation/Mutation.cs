@@ -12,7 +12,7 @@ public class Mutation {
     /// <param name="handler"></param>
     /// <param name="input"></param>
     /// <returns></returns>
-    public  async Task<CreateUserMutationResult> CreateUserAsync(
+    public async Task<CreateUserMutationResult> CreateUserAsync(
         [Service] CreateUserHandler handler,
         CreateUserInput input
     ) {
@@ -26,13 +26,10 @@ public class Mutation {
     /// <param name="handler"></param>
     /// <param name="input"></param>
     /// <returns></returns>
-    public  async Task<Application.MutationResult<UpdateUserDTO>> UpdateUserAsync(
+    public async Task<UpdateUserMutationoResult> UpdateUserAsync(
         [Service] UpdateUserHandler handler,
         UpdateUserInput input
-    ) {
-        Application.MutationResult<UpdateUserDTO> result = await handler.HandleAsync(input);
-        return result;
-    }
+    ) => await handler.HandleAsync(input);
 
     /// <summary>
     /// Delete a user
@@ -40,11 +37,8 @@ public class Mutation {
     /// <param name="handler"></param>
     /// <param name="input"></param>
     /// <returns></returns>
-    public  async Task<Application.MutationResult<DeleteUserDTO>> DeleteUserAsync(
+    public async Task<DeleteUserMutationoResult> DeleteUserAsync(
         [Service] DeleteUserHandler handler,
         DeleteUserInput input
-    ) {
-        Application.MutationResult<DeleteUserDTO> result = await handler.HandleAsync(input);
-        return result;
-    }
+    ) => await handler.HandleAsync(input);
 }

@@ -16,10 +16,10 @@ public class MutationError {
 }
 
 public static class MutationErrorExtension {
-    public static void AddError(this MutationResult<object> result, string message) {
+    public static void AddError(this MutationResult result, string message) {
         result.Errors.Add(new MutationError(message));
     }
-    public static void AddError(this MutationResult<object> result, string path, string message) {
+    public static void AddError(this MutationResult result, string path, string message) {
         result.Errors.Add(new MutationError(path, message));
     }
 

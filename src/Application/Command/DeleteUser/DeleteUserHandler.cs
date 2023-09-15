@@ -8,30 +8,24 @@ public class DeleteUserHandler : ICommandHandler {
         _context = context;
     }
 
-
-
-    public async Task<Application.MutationResult<DeleteUserDTO>> HandleAsync(DeleteUserInput input) {
+    public async Task<DeleteUserMutationoResult> HandleAsync(DeleteUserInput input) {
         await Task.CompletedTask;
 
-        var errors = ValidateDeletePerson(input);
+        List<MutationError> errors = ValidateDeletePerson(input);
         if (errors.Any()) {
-            return new Application.MutationResult<DeleteUserDTO> {
-                Errors = errors
-            };
+            return new DeleteUserMutationoResult(errors);
         }
 
-        var user = _context.Users.First(p => p.Id == input.Id);
-
+        Domain.Model.User user = _context.Users.First(p => p.Id == input.Id);
         _context.Users.Remove(user);
         _context.SaveChanges();
-        return new Application.MutationResult<DeleteUserDTO> {
-            Data = DeleteUserDTO.FromUser(user)
-        };
+
+        return new DeleteUserMutationoResult(DeleteUserDTO.FromUser(user));
     }
     private List<MutationError> ValidateDeletePerson(DeleteUserInput input) {
-        var errors = new List<MutationError>();
+        List<MutationError> errors = new();
 
-        var personExists = _context.Users.Any(p => p.Id == input.Id);
+        bool personExists = _context.Users.Any(p => p.Id == input.Id);
         if (!personExists) {
             errors.Add("User not found");
             return errors;

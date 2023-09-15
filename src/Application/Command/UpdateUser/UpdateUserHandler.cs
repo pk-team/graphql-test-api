@@ -1,3 +1,4 @@
+using Domain.Model;
 using Infrastructure.Context;
 
 namespace Application.Command;
@@ -7,26 +8,20 @@ public class UpdateUserHandler : ICommandHandler {
         _context = context;
     }
 
-
-    public async Task<Application.MutationResult<UpdateUserDTO>> HandleAsync(UpdateUserInput input) {
+    public async Task<UpdateUserMutationoResult> HandleAsync(UpdateUserInput input) {
         await Task.CompletedTask;
 
-        var errors = ValidateUpdatePerson(input);
+        List<MutationError> errors = ValidateUpdatePerson(input);
         if (errors.Any()) {
-            return new Application.MutationResult<UpdateUserDTO> {
-                Errors = errors
-            };
+            return new UpdateUserMutationoResult(errors);
         }
 
-        var person = _context.Users.First(p => p.Id == input.Id);
+        User user = _context.Users.First(p => p.Id == input.Id);
+        user.Update(input.Name, input.Email, input.Age);
 
-        person.Update(input.Name, input.Email, input.Age);
-
-        _context.Users.Add(person);
         _context.SaveChanges();
-        return new Application.MutationResult<UpdateUserDTO> {
-            Data = UpdateUserDTO.FromUser(person)
-        };
+
+        return new UpdateUserMutationoResult(UpdateUserDTO.FromUser(user));
     }
 
     private List<MutationError> ValidateUpdatePerson(UpdateUserInput input) {
