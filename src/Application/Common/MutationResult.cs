@@ -1,6 +1,5 @@
 namespace Application;
 
-public class MutationResult<T> {
-    public T? Data { get; set; }
+public class MutationResult {
     public List<MutationError> Errors { get; set; } = new List<MutationError>();
 }

@@ -12,11 +12,11 @@ public class Mutation {
     /// <param name="handler"></param>
     /// <param name="input"></param>
     /// <returns></returns>
-    public  async Task<Application.MutationResult<CreateUserDTO>> CreateUserAsync(
+    public  async Task<CreateUserMutationResult> CreateUserAsync(
         [Service] CreateUserHandler handler,
         CreateUserInput input
     ) {
-        Application.MutationResult<CreateUserDTO> result = await handler.HandleAsync(input);
+        CreateUserMutationResult result = await handler.HandleAsync(input);
         return result;
     }
 

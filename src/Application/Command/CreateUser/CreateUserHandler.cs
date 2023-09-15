@@ -9,29 +9,25 @@ public class CreateUserHandler : ICommandHandler {
     }
 
 
-    public async Task<MutationResult<CreateUserDTO>> HandleAsync(CreateUserInput input) {
+    public async Task<CreateUserMutationResult> HandleAsync(CreateUserInput input) {
         await Task.CompletedTask;
 
         List<MutationError> errors = ValidateCreatePerson(input);
 
         if (errors.Any()) {
-            return new MutationResult<CreateUserDTO> {
-                Errors = errors
-            };
+            return new CreateUserMutationResult(errors);
         }
 
-        var person = new User(input.Name, input.Email, input.Age);
+        User person = new (input.Name, input.Email, input.Age);
 
         _context.Users.Add(person);
         _context.SaveChanges();
 
-        return new MutationResult<CreateUserDTO> {
-            Data = CreateUserDTO.FromPerson(person)
-        };
+        return new CreateUserMutationResult(CreateUserDTO.FromPerson(person));
     }
 
     private List<MutationError> ValidateCreatePerson(CreateUserInput input) {
-        var errors = new List<MutationError>();
+        List<MutationError> errors = new();
 
         if (_context.Users.Any(p => p.Name == input.Name)) {
             errors.Add("name", "Person name already exists");
